@@ -3,7 +3,7 @@
   "schema": "pica-repo-index-v1",
   "repo_name": "Pica 官方社区软件源",
   "repo_desc": "Pica Official Community Software Source",
-  "generated_at": "2026-03-30T10:12:48.203615Z",
+  "generated_at": "2026-03-30T10:16:57.840444Z",
   "packages": [
     {
       "pkgname": "adguardhome",
@@ -204,14 +204,14 @@
       "cmd_install": "cmd/install",
       "cmd_update": "cmd/update",
       "cmd_remove": "cmd/remove",
-      "builddate": "1774865555",
+      "builddate": "1774865815",
       "pkgver": "0.47.075",
       "pkgrel": "1",
       "platform": "all",
       "arch": "all",
-      "size": "6699936",
+      "size": "6699642",
       "filename": "openclash-0.47.075-1-all.pkg.tar.gz",
-      "sha256": "aa836a274d114634cd30c7d4231ce6eb905c3e3aec139a92c6fd968da1ed7093"
+      "sha256": "1e8c545bb0bdffaa340bcd44f88a0d506628ad93e666f5d5f6eac37e1e1495df"
     }
   ]
 }
