@@ -102,6 +102,15 @@
       "staging": "src/opkg/ua-mask",
       "ci": "ci/opkg/ua-mask/build.json",
       "registry": "r/opkg/ua-mask/index.json"
+    },
+    {
+      "id": "btop",
+      "pkgname": "btop",
+      "version": "1.4.5-1",
+      "manifest": "src/opkg/btop/manifest",
+      "staging": "src/opkg/btop",
+      "ci": "ci/opkg/btop/build.json",
+      "registry": "r/opkg/btop/index.json"
     }
   ]
 }
