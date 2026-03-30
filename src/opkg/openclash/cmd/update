@@ -1,0 +1,6 @@
+#!/bin/sh
+# OpenClash Update Script for Pica
+set -e
+
+# For OpenClash, we just run the install script again
+./cmd/install

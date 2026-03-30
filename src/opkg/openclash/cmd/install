@@ -1,0 +1,15 @@
+#!/bin/sh
+# OpenClash Installation Script for Pica
+set -e
+
+# Find the .ipk in binary/all/all/
+IPK_FILE=$(ls binary/all/all/luci-app-openclash_*.ipk 2>/dev/null | head -n 1)
+
+if [ -z "$IPK_FILE" ]; then
+    echo "Error: No OpenClash .ipk found in binary directory!"
+    exit 1
+fi
+
+echo "Installing $IPK_FILE..."
+opkg install "$IPK_FILE"
+echo "OpenClash installed successfully."

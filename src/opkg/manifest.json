@@ -48,6 +48,15 @@
       "staging": "src/opkg/vane",
       "ci": "ci/opkg/vane/build.json",
       "registry": "r/opkg/vane/index.json"
+    },
+    {
+      "id": "openclash",
+      "pkgname": "openclash",
+      "version": "0.47.075-1",
+      "manifest": "src/opkg/openclash/manifest",
+      "staging": "src/opkg/openclash",
+      "ci": "ci/opkg/openclash/build.json",
+      "registry": "r/opkg/openclash/index.json"
     }
   ]
 }

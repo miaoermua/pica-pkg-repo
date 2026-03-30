@@ -1,0 +1,7 @@
+#!/bin/sh
+# OpenClash Removal Script for Pica
+set -e
+
+echo "Removing luci-app-openclash..."
+opkg remove luci-app-openclash
+echo "OpenClash removed successfully."
