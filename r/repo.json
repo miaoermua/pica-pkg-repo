@@ -3,7 +3,7 @@
   "schema": "pica-repo-index-v1",
   "repo_name": "Pica 官方社区软件源",
   "repo_desc": "Pica Official Community Software Source",
-  "generated_at": "2026-03-30T12:22:18.214516Z",
+  "generated_at": "2026-03-30T12:25:25.222569Z",
   "packages": [
     {
       "pkgname": "adguardhome",
@@ -266,6 +266,33 @@
       "size": "1392888",
       "filename": "ua-mask-0.4.3-1-mipsel-mipsel_24kc.pkg.tar.gz",
       "sha256": "13e0857b8b31e4a296cbf6283a4b265ed0ecbefd0e791ecebbc80642e214eb7d"
+    },
+    {
+      "pkgname": "easytier",
+      "appname": "easytier",
+      "os": "openwrt",
+      "pica": "0.2.0",
+      "pkgdesc": "A simple, decentralized mesh VPN with high performance and zero configuration (VPN).",
+      "url": "https://github.com/EasyTier/EasyTier",
+      "branch": "main",
+      "protocol": "cli",
+      "license": "Apache-2.0",
+      "visibility": "open",
+      "packager": "pica-pack",
+      "type": "cli",
+      "pkgmgr": "opkg",
+      "app": "easytier",
+      "cmd_install": "cmd/install",
+      "cmd_update": "cmd/update",
+      "cmd_remove": "cmd/remove",
+      "builddate": "1774873522",
+      "pkgver": "2.5.0",
+      "pkgrel": "1",
+      "platform": "mipsel",
+      "arch": "mipsel_24kc",
+      "size": "28198",
+      "filename": "easytier-2.5.0-1-mipsel-mipsel_24kc.pkg.tar.gz",
+      "sha256": "2f82b6c8ad7046b5be349064eb248af0e3379752bcd92d639d6e81f795d1d633"
     }
   ]
 }
