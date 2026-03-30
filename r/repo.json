@@ -3,7 +3,7 @@
   "schema": "pica-repo-index-v1",
   "repo_name": "Pica 官方社区软件源",
   "repo_desc": "Pica Official Community Software Source",
-  "generated_at": "2026-03-30T10:19:26.163743Z",
+  "generated_at": "2026-03-30T11:44:05.036188Z",
   "packages": [
     {
       "pkgname": "adguardhome",
@@ -212,6 +212,33 @@
       "size": "6699642",
       "filename": "openclash-0.47.075-1-all.pkg.tar.gz",
       "sha256": "1e8c545bb0bdffaa340bcd44f88a0d506628ad93e666f5d5f6eac37e1e1495df"
+    },
+    {
+      "pkgname": "adguardhome-bin",
+      "appname": "adguardhome",
+      "os": "openwrt",
+      "pica": "0.2.0",
+      "pkgdesc": "AdGuard Home is a network-wide software for blocking ads & tracking (Binary Core).",
+      "url": "https://github.com/AdguardTeam/AdGuardHome",
+      "branch": "master",
+      "protocol": "cli",
+      "license": "GPL-3.0-only",
+      "visibility": "open",
+      "packager": "pica-pack",
+      "type": "cli",
+      "pkgmgr": "opkg",
+      "app": "adguardhome",
+      "cmd_install": "cmd/install",
+      "cmd_update": "cmd/update",
+      "cmd_remove": "cmd/remove",
+      "builddate": "1774871040",
+      "pkgver": "0.107.57",
+      "pkgrel": "1",
+      "platform": "mipsel",
+      "arch": "mipsel_24kc",
+      "size": "10091510",
+      "filename": "adguardhome-bin-0.107.57-1-mipsel-mipsel_24kc.pkg.tar.gz",
+      "sha256": "8fdc9d5dcaddb647aaa695077c4b1dad00d9acd57372a1b63528c8ae9198a2a4"
     }
   ]
 }
