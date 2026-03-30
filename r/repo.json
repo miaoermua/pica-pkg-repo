@@ -3,7 +3,7 @@
   "schema": "pica-repo-index-v1",
   "repo_name": "Pica 官方社区软件源",
   "repo_desc": "Pica Official Community Software Source",
-  "generated_at": "2026-03-30T15:27:54.576021Z",
+  "generated_at": "2026-03-30T16:00:25.703382Z",
   "packages": [
     {
       "pkgname": "adguardhome",
@@ -416,6 +416,34 @@
       "size": "3757868",
       "filename": "ddns-go@immortalwrt-6.11.2-1-mipsel-mipsel_24kc.pkg.tar.gz",
       "sha256": "d3fd0de300d03bcb7279a8783049eb906a7b02a5c7e126915536223ad5c463d3"
+    },
+    {
+      "pkgname": "openlist",
+      "appname": "openlist",
+      "url": "https://github.com/immortalwrt/luci/tree/master/applications/luci-app-openlist",
+      "luci_url": "https://github.com/immortalwrt/luci/tree/master/applications/luci-app-openlist",
+      "branch": "immortalwrt",
+      "protocol": "luci",
+      "os": "openwrt",
+      "pica": "0.2.8",
+      "pkgdesc": "Openlist LuCI2 Plugin (ImmortalWrt)",
+      "packager": "pica-pack",
+      "license": "Apache-2.0",
+      "visibility": "open",
+      "type": "luci",
+      "luci": "js2",
+      "pkgmgr": "opkg",
+      "source": "pica",
+      "app": "luci-app-openlist",
+      "app_i18n": "luci-i18n-openlist-{lang}",
+      "builddate": "1774886419",
+      "pkgver": "4.1.5",
+      "pkgrel": "1",
+      "platform": "mipsel",
+      "arch": "mipsel_24kc",
+      "size": "47083437",
+      "filename": "openlist-4.1.5-1-mipsel-mipsel_24kc.pkg.tar.gz",
+      "sha256": "5807e069180aaf6086efb76ef667d365f0aef95176f3f777b5ee7876802ee370"
     }
   ]
 }
