@@ -55,6 +55,7 @@ def extract_from_zip(zip_path, inner_regex, final_path):
                     for f in files:
                         if re.search(inner_regex, f):
                             src = os.path.join(root, f)
+                            os.makedirs(os.path.dirname(final_path), exist_ok=True)
                             shutil.move(src, final_path)
                             print(f"Successfully extracted to {final_path}")
                             return True
@@ -117,11 +118,18 @@ def fetch_github_assets(pkg_dir, build_config):
                         if key == "arch": target_arch = val
                         elif key == "platform": target_platform = val
 
+                # If we have an arch but no platform, look it up in the matrix
                 if target_arch and not target_platform:
+                    in_matrix = False
                     for m in matrix:
                         if m.get("arch") == target_arch:
                             target_platform = m.get("platform")
+                            in_matrix = True
                             break
+                    # STRICT FILTERING: If capture_to was used, we only download if it's in our matrix
+                    if not in_matrix:
+                        print(f"Skipping {a['name']}: Architecture {target_arch} not in matrix.")
+                        continue
                 
                 if not target_platform: target_platform = "all"
                 if not target_arch: target_arch = "all"
