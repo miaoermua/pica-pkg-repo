@@ -2,45 +2,95 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
+    const cache = caches.default;
 
-    // 1. 代理 repo.json 索引文件 (从 GitHub 原始链接抓取)
-    if (path === "/repo.json" || path === "/r/repo.json") {
-      const rawUrl = `https://raw.githubusercontent.com/${env.GITHUB_USER}/${env.GITHUB_REPO}/main/r/repo.json`;
-      const resp = await fetch(rawUrl);
+    // --- Helper: Fetch repo.json with short-term cache ---
+    const getRepoIndex = async () => {
+      const repoUrl = `https://raw.githubusercontent.com/${env.GITHUB_USER}/${env.GITHUB_REPO}/main/r/repo.json`;
+      const cacheKey = new Request(new URL("/repo.json", url.origin));
       
-      if (!resp.ok) {
-        return new Response(`Error fetching repo index from GitHub: ${resp.statusText}`, { status: resp.status });
+      let response = await cache.match(cacheKey);
+      if (!response) {
+        const resp = await fetch(repoUrl);
+        if (!resp.ok) return null;
+        
+        // Cache for 60 seconds
+        response = new Response(resp.body, resp);
+        response.headers.set("Cache-Control", "max-age=60");
+        await cache.put(cacheKey, response.clone());
       }
+      return await response.json();
+    };
 
-      return new Response(resp.body, {
+    // 1. Route: /repo.json (Direct Proxy with Cache)
+    if (path === "/repo.json" || path === "/r/repo.json") {
+      const index = await getRepoIndex();
+      if (!index) return new Response("Error fetching repo index", { status: 502 });
+      
+      return new Response(JSON.stringify(index), {
         headers: {
           "content-type": "application/json; charset=utf-8",
           "Access-Control-Allow-Origin": "*",
-          "Cache-Control": "max-age=60" 
+          "Cache-Control": "max-age=60"
         }
       });
     }
 
-    // 2. 代理发布包 (重定向到 GitHub Releases)
-    // 预期路径格式: /releases/{tag}/{filename}
-    // 或者是 /latest/{filename} 重定向到 latest 标签
-    if (path.startsWith("/releases/")) {
-      const parts = path.split("/");
-      if (parts.length >= 4) {
-        const tag = parts[2];
-        const filename = parts[3];
-        const releaseUrl = `https://github.com/${env.GITHUB_USER}/${env.GITHUB_REPO}/releases/download/${tag}/${filename}`;
-        return Response.redirect(releaseUrl, 302);
+    // 2. Route: Package Files (/latest/xxx or /releases/xxx)
+    if (path.startsWith("/releases/") || path.startsWith("/latest/")) {
+      const filename = path.split("/").pop();
+      if (!filename.endsWith(".pkg.tar.gz")) {
+        return new Response("Not a Pica package file", { status: 400 });
       }
-    }
-    
-    if (path.startsWith("/latest/")) {
-      const filename = path.replace("/latest/", "");
-      const releaseUrl = `https://github.com/${env.GITHUB_USER}/${env.GITHUB_REPO}/releases/download/latest/${filename}`;
-      return Response.redirect(releaseUrl, 302);
+
+      // 2a. Smart Cache Hook: Get SHA256 from Index
+      const index = await getRepoIndex();
+      const pkgInfo = index ? index.packages.find(p => p.filename === filename) : null;
+      
+      // If we can't find it in index, we use "no-hash" but don't cache indefinitely
+      const sha256 = pkgInfo ? pkgInfo.sha256 : "no-hash";
+      
+      // 2b. Construct Cache Key using SHA256 as a fingerprint
+      // This ensures that if the SHA256 in repo.json changes, the cache is bypassed.
+      const cacheKeyUrl = new URL(request.url);
+      cacheKeyUrl.searchParams.set("hash", sha256);
+      const cacheKey = new Request(cacheKeyUrl);
+
+      let response = await cache.match(cacheKey);
+
+      if (!response) {
+        let releaseUrl;
+        if (path.startsWith("/latest/")) {
+          releaseUrl = `https://github.com/${env.GITHUB_USER}/${env.GITHUB_REPO}/releases/download/latest/${filename}`;
+        } else {
+          const parts = path.split("/");
+          const tag = parts[2];
+          releaseUrl = `https://github.com/${env.GITHUB_USER}/${env.GITHUB_REPO}/releases/download/${tag}/${filename}`;
+        }
+
+        const githubResp = await fetch(releaseUrl);
+        if (!githubResp.ok) {
+          return new Response(`GitHub Error: ${githubResp.statusText}`, { status: githubResp.status });
+        }
+
+        // Create cached response
+        response = new Response(githubResp.body, githubResp);
+        response.headers.set("Access-Control-Allow-Origin", "*");
+        
+        // If we have a hash, cache it "forever" (7 days)
+        if (sha256 !== "no-hash") {
+          response.headers.set("Cache-Control", "public, max-age=604800, immutable");
+          await cache.put(cacheKey, response.clone());
+        } else {
+          // If no hash found in index, cache only briefly
+          response.headers.set("Cache-Control", "public, max-age=300");
+        }
+      }
+
+      return response;
     }
 
-    return new Response("Pica Repository Worker is Running.\n\nUsage:\n- /repo.json\n- /latest/{filename}\n- /releases/{tag}/{filename}", { 
+    return new Response("Pica Smart Proxy Worker\n- /repo.json\n- /latest/{file}\n- /releases/{tag}/{file}", { 
       status: 200,
       headers: { "content-type": "text/plain; charset=utf-8" }
     });
