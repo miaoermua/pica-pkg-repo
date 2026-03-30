@@ -111,6 +111,24 @@
       "staging": "src/opkg/btop",
       "ci": "ci/opkg/btop/build.json",
       "registry": "r/opkg/btop/index.json"
+    },
+    {
+      "id": "nano",
+      "pkgname": "nano",
+      "version": "8.7.1-1",
+      "manifest": "src/opkg/nano/manifest",
+      "staging": "src/opkg/nano",
+      "ci": "ci/opkg/nano/build.json",
+      "registry": "r/opkg/nano/index.json"
+    },
+    {
+      "id": "tailscale",
+      "pkgname": "tailscale",
+      "version": "1.80.3-1",
+      "manifest": "src/opkg/tailscale/manifest",
+      "staging": "src/opkg/tailscale",
+      "ci": "ci/opkg/tailscale/build.json",
+      "registry": "r/opkg/tailscale/index.json"
     }
   ]
 }
