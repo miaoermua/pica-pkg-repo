@@ -3,7 +3,7 @@
   "schema": "pica-repo-index-v1",
   "repo_name": "Pica 官方社区软件源",
   "repo_desc": "Pica Official Community Software Source",
-  "generated_at": "2026-03-30T16:00:25.703382Z",
+  "generated_at": "2026-03-30T17:08:01.409209Z",
   "packages": [
     {
       "pkgname": "adguardhome",
@@ -444,6 +444,36 @@
       "size": "47083437",
       "filename": "openlist-4.1.5-1-mipsel-mipsel_24kc.pkg.tar.gz",
       "sha256": "5807e069180aaf6086efb76ef667d365f0aef95176f3f777b5ee7876802ee370"
+    },
+    {
+      "pkgname": "zerotier",
+      "appname": "zerotier",
+      "url": "https://www.zerotier.com",
+      "luci_url": "https://github.com/immortalwrt/luci/tree/master/applications/luci-app-zerotier",
+      "branch": "immortalwrt",
+      "protocol": "luci",
+      "os": "openwrt",
+      "pica": "0.2.8",
+      "pkgdesc": "ZeroTier VPN Plugin (ImmortalWrt LuCI2 version)",
+      "packager": "pica-pack",
+      "license": "MPL-2.0",
+      "visibility": "open",
+      "type": "luci",
+      "luci": "js2",
+      "pkgmgr": "opkg",
+      "source": "pica",
+      "app": "luci-app-zerotier",
+      "app_i18n": "luci-i18n-zerotier-{lang}",
+      "base": "libatomic",
+      "kmod": "kmod-tun",
+      "builddate": "1774890479",
+      "pkgver": "1.14.1",
+      "pkgrel": "14",
+      "platform": "mipsel",
+      "arch": "mipsel_24kc",
+      "size": "510971",
+      "filename": "zerotier-1.14.1-14-mipsel-mipsel_24kc.pkg.tar.gz",
+      "sha256": "58c3eba333b53fab763de5597c9fd58da17ae12dd44471d083e179c1647fb692"
     }
   ]
 }
