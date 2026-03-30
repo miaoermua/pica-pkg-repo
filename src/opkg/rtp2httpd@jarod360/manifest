@@ -1,4 +1,4 @@
-pkgname = rtp2httpd
+pkgname = rtp2httpd@jarod360
 appname = rtp2httpd
 pkgver = 20251127
 pkgrel = 2

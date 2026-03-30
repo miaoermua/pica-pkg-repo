@@ -2,9 +2,9 @@
   "pica_protocol": 1,
   "schema": "pica-ci-job-v1",
   "mgr": "opkg",
-  "id": "rtp2httpd-jarod360",
+  "id": "rtp2httpd@jarod360",
   "enabled": true,
-  "manifest": "manifests/opkg/rtp2httpd-jarod360/manifest",
+  "manifest": "src/opkg/rtp2httpd@jarod360/manifest",
   "source": {
     "provider": "github",
     "repo": "jarod360/rtp2httpd",
@@ -75,7 +75,7 @@
   },
   "publish": {
     "manifest_index": "manifests/opkg/manifest.json",
-    "registry_db": "r/opkg/rtp2httpd-jarod360/db.json",
+    "registry_db": "r/opkg/rtp2httpd@jarod360/db.json",
     "keep_release_history": 1,
     "artifact_url_template": "https://example.invalid/pica/releases/{id}/{filename}"
   }
