@@ -32,13 +32,13 @@
       "registry": "r/opkg/rtp2httpd/index.json"
     },
     {
-      "id": "rtp2httpd-jarod360",
-      "pkgname": "rtp2httpd",
+      "id": "rtp2httpd@jarod360",
+      "pkgname": "rtp2httpd@jarod360",
       "version": "20251127-2",
-      "manifest": "manifests/opkg/rtp2httpd-jarod360/manifest",
-      "staging": "manifests/opkg/rtp2httpd-jarod360",
-      "ci": "ci/opkg/rtp2httpd-jarod360/build.json",
-      "registry": "r/opkg/rtp2httpd-jarod360/index.json"
+      "manifest": "src/opkg/rtp2httpd@jarod360/manifest",
+      "staging": "src/opkg/rtp2httpd@jarod360",
+      "ci": "src/opkg/rtp2httpd@jarod360/build.json",
+      "registry": "r/opkg/rtp2httpd@jarod360/index.json"
     },
     {
       "id": "vane",
