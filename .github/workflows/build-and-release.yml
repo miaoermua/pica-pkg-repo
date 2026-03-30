@@ -49,9 +49,7 @@ jobs:
             # Ensure it is a valid package directory (has manifest)
             if [ -f "$dir/manifest" ]; then
               echo "Building package in $dir..."
-              pica-pack build "$dir"
-              # Move built packages to output directory
-              mv *.pkg.tar.gz build_output/ || true
+              pica-pack build "$dir" --outdir build_output
             fi
           done
 
