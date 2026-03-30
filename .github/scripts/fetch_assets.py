@@ -3,6 +3,9 @@ import sys
 import json
 import re
 import urllib.request
+import zipfile
+import tempfile
+import shutil
 
 def fetch_json(url):
     print(f"Fetching {url}...")
@@ -39,6 +42,26 @@ def download_file(url, path):
         print(f"Failed to download from {url}: {e}")
         return False
 
+def extract_from_zip(zip_path, inner_regex, final_path):
+    """
+    Download a zip, find a file inside matching inner_regex, and move it to final_path.
+    """
+    print(f"Extracting matching '{inner_regex}' from {zip_path}...")
+    try:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(tmp_dir)
+                for root, _, files in os.walk(tmp_dir):
+                    for f in files:
+                        if re.search(inner_regex, f):
+                            src = os.path.join(root, f)
+                            shutil.move(src, final_path)
+                            print(f"Successfully extracted to {final_path}")
+                            return True
+    except Exception as e:
+        print(f"Extraction failed: {e}")
+    return False
+
 def fetch_github_assets(pkg_dir, build_config):
     source = build_config.get("source", {})
     repo = source.get("repo")
@@ -47,7 +70,6 @@ def fetch_github_assets(pkg_dir, build_config):
     tag_regex = tag_cfg.get("regex")
     allow_prerelease = release_cfg.get("allow_prerelease", False)
 
-    # Fetch releases
     api_url = f"https://api.github.com/repos/{repo}/releases"
     try:
         releases = fetch_json(api_url)
@@ -77,6 +99,7 @@ def fetch_github_assets(pkg_dir, build_config):
 
     for asset_meta in assets_cfg:
         asset_regex = asset_meta.get("regex")
+        inner_regex = asset_meta.get("inner_regex") # For zip extraction
         capture_to = asset_meta.get("capture_to", {})
         fixed_target = asset_meta.get("target", {})
         required = asset_meta.get("required", True)
@@ -104,11 +127,28 @@ def fetch_github_assets(pkg_dir, build_config):
                 if not target_arch: target_arch = "all"
 
                 dest_dir = os.path.join(pkg_dir, "binary", target_platform, target_arch)
-                dest_path = os.path.join(dest_dir, a["name"])
                 
-                if download_file(a["browser_download_url"], dest_path):
-                    found_any = True
-                    found_this_asset_meta = True
+                # If we need to extract from zip, we download to a temporary location first
+                if inner_regex and a["name"].endswith(".zip"):
+                    with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as tmp_zip:
+                        zip_tmp_path = tmp_zip.name
+                    
+                    if download_file(a["browser_download_url"], zip_tmp_path):
+                        # Determine final filename from inner regex or a default
+                        final_filename = a["name"].replace(".zip", ".ipk") # Guessing .ipk if from zip
+                        # Actually we can do better: if inner_regex matches something, we'll get it.
+                        # Let's use the asset role + arch for a clean name if possible?
+                        # For now, let's just use a placeholder and improve if needed.
+                        final_path = os.path.join(dest_dir, final_filename)
+                        if extract_from_zip(zip_tmp_path, inner_regex, final_path):
+                            found_any = True
+                            found_this_asset_meta = True
+                        os.remove(zip_tmp_path)
+                else:
+                    dest_path = os.path.join(dest_dir, a["name"])
+                    if download_file(a["browser_download_url"], dest_path):
+                        found_any = True
+                        found_this_asset_meta = True
         
         if not found_this_asset_meta and required:
             print(f"Required GitHub asset '{asset_regex}' not found.")
@@ -135,10 +175,7 @@ def fetch_http_template_assets(pkg_dir, build_config):
         platform = m.get("platform", "all")
         if not arch: continue
 
-        # Interpolate variables in URL
         url = url_template.replace("{arch}", arch).replace("{version}", version).replace("{platform}", platform)
-        
-        # Get filename from URL
         filename = url.split("/")[-1]
         dest_dir = os.path.join(pkg_dir, "binary", platform, arch)
         dest_path = os.path.join(dest_dir, filename)
@@ -147,8 +184,6 @@ def fetch_http_template_assets(pkg_dir, build_config):
             found_any = True
         else:
             print(f"Could not download asset for {arch} from {url}")
-            # If a specific arch fails, we might want to continue or fail. 
-            # For mirrors, some archs might be missing. We'll continue.
 
     return found_any
 
@@ -180,7 +215,6 @@ def main():
 
     if not success:
         print("Fetch failed or no assets found.")
-        # sys.exit(1) # Uncomment if strict failure is needed
 
 if __name__ == "__main__":
     main()

@@ -84,6 +84,15 @@
       "staging": "src/opkg/bind-dig",
       "ci": "ci/opkg/bind-dig/build.json",
       "registry": "r/opkg/bind-dig/index.json"
+    },
+    {
+      "id": "easytier",
+      "pkgname": "easytier",
+      "version": "2.5.0-1",
+      "manifest": "src/opkg/easytier/manifest",
+      "staging": "src/opkg/easytier",
+      "ci": "ci/opkg/easytier/build.json",
+      "registry": "r/opkg/easytier/index.json"
     }
   ]
 }

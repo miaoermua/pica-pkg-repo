@@ -1,0 +1,64 @@
+{
+  "pica_protocol": 1,
+  "schema": "pica-ci-job-v1",
+  "mgr": "opkg",
+  "id": "easytier",
+  "enabled": true,
+  "manifest": "src/opkg/easytier/manifest",
+  "source": {
+    "provider": "github",
+    "repo": "EasyTier/luci-app-easytier",
+    "release": {
+      "tag": {
+        "mode": "regex",
+        "regex": "^v2\\.5\\.0$"
+      },
+      "allow_prerelease": false,
+      "assets": [
+        {
+          "name": "easytier-pkg",
+          "role": "app",
+          "regex": "^EasyTier-v2\\.5\\.0-(.*)-22\\.03\\.7\\.zip$",
+          "inner_regex": "luci-app-easytier.*\\.ipk$",
+          "required": true,
+          "capture_to": {
+            "arch": 1
+          }
+        }
+      ]
+    }
+  },
+  "versioning": {
+    "pkgver": {
+      "from": "manifest",
+      "fallback": "2.5.0"
+    },
+    "pkgrel": {
+      "from": "manifest",
+      "fallback": 1
+    }
+  },
+  "build": {
+    "matrix": [
+      { "platform": "amd64", "arch": "x86_64" },
+      { "platform": "arm64", "arch": "aarch64_generic" },
+      { "platform": "arm64", "arch": "aarch64_cortex-a53" },
+      { "platform": "arm64", "arch": "aarch64_cortex-a72" },
+      { "platform": "mipsel", "arch": "mipsel_24kc" }
+    ],
+    "include_dirs": [
+      "cmd",
+      "binary",
+      "depend",
+      "src"
+    ],
+    "pack": {
+      "tool": "pica-pack",
+      "format": "pkg.tar.gz"
+    }
+  },
+  "publish": {
+    "manifest_index": "src/opkg/manifest.json",
+    "registry_db": "r/opkg/easytier/db.json"
+  }
+}
