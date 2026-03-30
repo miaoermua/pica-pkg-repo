@@ -66,6 +66,15 @@
       "staging": "src/opkg/adguardhome-bin",
       "ci": "ci/opkg/adguardhome-bin/build.json",
       "registry": "r/opkg/adguardhome-bin/index.json"
+    },
+    {
+      "id": "cattools",
+      "pkgname": "cattools",
+      "version": "1.1-1",
+      "manifest": "src/none/cattools/manifest",
+      "staging": "src/none/cattools",
+      "ci": "ci/none/cattools/build.json",
+      "registry": "r/none/cattools/index.json"
     }
   ]
 }
