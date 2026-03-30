@@ -72,7 +72,19 @@ jobs:
             echo "No packages were built."
           fi
 
-      - name: Create or Update Latest Release
+      - name: Generate Release Tag
+        id: date
+        run: echo "RELEASE_TAG=$(date +'%y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
+
+      - name: Create Snapshot Release
+        uses: softprops/action-gh-release@v2
+        if: success() && hashFiles('build_output/*.pkg.tar.gz') != ''
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: Release ${{ env.RELEASE_TAG }}
+          files: build_output/*.pkg.tar.gz
+
+      - name: Update Rolling Latest Release
         uses: softprops/action-gh-release@v2
         if: success() && hashFiles('build_output/*.pkg.tar.gz') != ''
         with:
