@@ -57,6 +57,15 @@
       "staging": "src/opkg/openclash",
       "ci": "ci/opkg/openclash/build.json",
       "registry": "r/opkg/openclash/index.json"
+    },
+    {
+      "id": "adguardhome-bin",
+      "pkgname": "adguardhome-bin",
+      "version": "0.107.57-1",
+      "manifest": "src/opkg/adguardhome-bin/manifest",
+      "staging": "src/opkg/adguardhome-bin",
+      "ci": "ci/opkg/adguardhome-bin/build.json",
+      "registry": "r/opkg/adguardhome-bin/index.json"
     }
   ]
 }

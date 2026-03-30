@@ -2,3 +2,5 @@
 
 example/*
 docs/local_agent_cache/*
+
+*.pkg.tar.gz
