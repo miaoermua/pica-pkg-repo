@@ -93,13 +93,16 @@ jobs:
 
       - name: Commit Updated repo.json
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add r/repo.json
-          git status
-          if git diff --staged --quiet; then
-            echo "No changes to r/repo.json to commit."
+          if [ -f "r/repo.json" ]; then
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git add r/repo.json
+            if git diff --staged --quiet; then
+              echo "No changes to r/repo.json to commit."
+            else
+              git commit -m "chore: auto-update r/repo.json [skip ci]"
+              git push origin $GITHUB_REF_NAME
+            fi
           else
-            git commit -m "chore: auto-update r/repo.json [skip ci]"
-            git push origin $GITHUB_REF_NAME
+            echo "r/repo.json does not exist. Skipping commit."
           fi
