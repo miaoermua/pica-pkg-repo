@@ -5,3 +5,6 @@ compatibility_date = "2024-03-30"
 [vars]
 GITHUB_USER = "miaoermua"
 GITHUB_REPO = "pica-pkg-repo"
+
+[observability]
+enabled = true
