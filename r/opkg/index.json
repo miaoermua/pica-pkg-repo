@@ -1,0 +1,48 @@
+{
+  "pica_protocol": 1,
+  "schema": "pica-registry-index-v1",
+  "mgr": "opkg",
+  "updated_at": "2026-03-02T00:00:00Z",
+  "packages": [
+    {
+      "id": "adguardhome",
+      "pkgname": "adguardhome",
+      "provider": "rufengsuixing",
+      "description": "LuCI plugin for AdGuardHome",
+      "homepage": "https://github.com/rufengsuixing/luci-app-adguardhome",
+      "db": "r/opkg/adguardhome/db.json"
+    },
+    {
+      "id": "leigod-acc",
+      "pkgname": "leigod-acc",
+      "provider": "miaoermua",
+      "description": "Leigod acceleration app and LuCI integration",
+      "homepage": "https://github.com/miaoermua/luci-app-leigod-acc",
+      "db": "r/opkg/leigod-acc/db.json"
+    },
+    {
+      "id": "rtp2httpd",
+      "pkgname": "rtp2httpd",
+      "provider": "stackia",
+      "description": "RTP/RTSP to HTTP stream converter",
+      "homepage": "https://github.com/stackia/rtp2httpd",
+      "db": "r/opkg/rtp2httpd/db.json"
+    },
+    {
+      "id": "rtp2httpd-jarod360",
+      "pkgname": "rtp2httpd",
+      "provider": "jarod360",
+      "description": "rtp2httpd fork packaged for multi-arch",
+      "homepage": "https://github.com/jarod360/rtp2httpd",
+      "db": "r/opkg/rtp2httpd-jarod360/db.json"
+    },
+    {
+      "id": "vane",
+      "pkgname": "vane",
+      "provider": "canmi21",
+      "description": "Flow-based reverse proxy",
+      "homepage": "https://github.com/canmi21/vane",
+      "db": "r/opkg/vane/db.json"
+    }
+  ]
+}

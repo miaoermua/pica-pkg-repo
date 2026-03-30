@@ -1,0 +1,107 @@
+name: Pica Package Build and Release
+
+on:
+  push:
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # needed for tj-actions/changed-files
+
+      - name: Get Changed Files in src/
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: src/**
+          dir_names: true
+          dir_names_max_depth: 3 # e.g. src/mgr/hello
+          
+      - name: Setup pica-pack (Placeholder)
+        # Note: Replace this with the actual installation of pica-pack
+        # Since pica-pack isn't standard, you'd typically download it here:
+        run: |
+          echo "Simulating pica-pack installation..."
+          # wget https://github.com/miaoermua/pica-pack/releases/latest/download/pica-pack-linux-amd64
+          # chmod +x pica-pack-linux-amd64
+          # sudo mv pica-pack-linux-amd64 /usr/local/bin/pica-pack
+          
+          # Create a dummy script for simulation if real tool is absent
+          cat << 'EOF' > /tmp/pica-pack
+          #!/bin/bash
+          if [ "$1" == "build" ]; then
+            PKG_DIR=$2
+            PKG_NAME=$(basename $PKG_DIR)
+            ARCH="all"
+            OS="linux"
+            MANIFEST="$PKG_DIR/manifest"
+            VERSION=$(grep 'pkgver=' $MANIFEST | cut -d= -f2 | tr -d '"')
+            OUT_NAME="${PKG_NAME}-${VERSION}-${OS}-${ARCH}.pkg.tar.gz"
+            echo "Building $PKG_DIR into $OUT_NAME..."
+            tar -czvf $OUT_NAME -C $PKG_DIR .
+            echo "Built $OUT_NAME"
+          fi
+          EOF
+          chmod +x /tmp/pica-pack
+          sudo mv /tmp/pica-pack /usr/local/bin/pica-pack
+
+      - name: Build Changed Packages
+        run: |
+          mkdir -p build_output
+          for dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            # Ensure it is a valid package directory (has manifest)
+            if [ -f "$dir/manifest" ]; then
+              echo "Building package in $dir..."
+              pica-pack build "$dir"
+              # Move built packages to output directory
+              mv *.pkg.tar.gz build_output/ || true
+            fi
+          done
+
+      - name: Install Python Requirements (if any)
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Aggregate r/repo.json
+        run: |
+          # Ensure r/ exists
+          mkdir -p r
+          # Run aggregation script over all built packages
+          # If no packages matched, this will just exit gracefully
+          if ls build_output/*.pkg.tar.gz 1> /dev/null 2>&1; then
+            export PYTHONPATH=$PYTHONPATH:$(pwd)
+            python3 ci/scripts/gen_repo_index.py build_output/*.pkg.tar.gz
+          else
+            echo "No packages were built."
+          fi
+
+      - name: Create or Update Latest Release
+        uses: softprops/action-gh-release@v2
+        if: success() && hashFiles('build_output/*.pkg.tar.gz') != ''
+        with:
+          tag_name: latest
+          name: Latest Packages
+          files: build_output/*.pkg.tar.gz
+          # Draft/Prerelease logic can be added here
+
+      - name: Commit Updated repo.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add r/repo.json
+          git status
+          if git diff --staged --quiet; then
+            echo "No changes to r/repo.json to commit."
+          else
+            git commit -m "chore: auto-update r/repo.json [skip ci]"
+            git push origin $GITHUB_REF_NAME
+          fi
