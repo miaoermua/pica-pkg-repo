@@ -3,7 +3,7 @@
   "schema": "pica-repo-index-v1",
   "repo_name": "Pica 官方社区软件源",
   "repo_desc": "Pica Official Community Software Source",
-  "generated_at": "2026-03-30T10:16:57.840444Z",
+  "generated_at": "2026-03-30T10:19:26.163743Z",
   "packages": [
     {
       "pkgname": "adguardhome",
@@ -40,7 +40,7 @@
       "appname": "cattools",
       "os": "openwrt",
       "pica": "0.2.0",
-      "pkgdesc": "cattools script toolkit installed via lifecycle scripts",
+      "pkgdesc": "A powerful CatWrt toolbox written in BASH. Blog: https://www.miaoer.net/posts/blog/cattools",
       "url": "https://github.com/miaoermua/cattools",
       "branch": "main",
       "protocol": "cli",
@@ -53,14 +53,14 @@
       "cmd_install": "cmd/install",
       "cmd_update": "cmd/update",
       "cmd_remove": "cmd/remove",
-      "builddate": "1774863738",
+      "builddate": "1774865964",
       "pkgver": "1.1",
       "pkgrel": "1",
       "platform": "all",
       "arch": "all",
-      "size": "18516",
+      "size": "18532",
       "filename": "cattools-1.1-1-all.pkg.tar.gz",
-      "sha256": "3bb1f3fb622c173169916ee08b905adfc5bc43b65e0d17bade59ad9164246fe2"
+      "sha256": "fab92171bd46dc8b3338fb0a0dfe508dac3d6a60bc5673743e9d79b2efb01ca0"
     },
     {
       "pkgname": "leigod-acc",
