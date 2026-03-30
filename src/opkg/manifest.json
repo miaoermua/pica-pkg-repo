@@ -93,6 +93,15 @@
       "staging": "src/opkg/easytier",
       "ci": "ci/opkg/easytier/build.json",
       "registry": "r/opkg/easytier/index.json"
+    },
+    {
+      "id": "ua-mask",
+      "pkgname": "ua-mask",
+      "version": "0.4.3-1",
+      "manifest": "src/opkg/ua-mask/manifest",
+      "staging": "src/opkg/ua-mask",
+      "ci": "ci/opkg/ua-mask/build.json",
+      "registry": "r/opkg/ua-mask/index.json"
     }
   ]
 }
