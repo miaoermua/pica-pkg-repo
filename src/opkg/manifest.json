@@ -75,6 +75,15 @@
       "staging": "src/none/cattools",
       "ci": "ci/none/cattools/build.json",
       "registry": "r/none/cattools/index.json"
+    },
+    {
+      "id": "bind-dig",
+      "pkgname": "bind-dig",
+      "version": "9.20.18-1",
+      "manifest": "src/opkg/bind-dig/manifest",
+      "staging": "src/opkg/bind-dig",
+      "ci": "ci/opkg/bind-dig/build.json",
+      "registry": "r/opkg/bind-dig/index.json"
     }
   ]
 }
