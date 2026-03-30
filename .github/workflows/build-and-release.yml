@@ -5,6 +5,12 @@ on:
     paths:
       - 'src/**'
   workflow_dispatch:
+    inputs:
+      force_rebuild_all:
+        description: 'Force fully rebuild all packages'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -45,7 +51,19 @@ jobs:
       - name: Build Changed Packages
         run: |
           mkdir -p build_output
-          for dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          
+          if [ "${{ github.event.inputs.force_rebuild_all }}" == "true" ]; then
+            echo "Manual trigger: Forcing full rebuild of all packages..."
+            # Find all directories that contain a manifest
+            DIRS_TO_BUILD=$(find src -type f -name manifest | sed 's|/manifest||')
+          else
+            DIRS_TO_BUILD="${{ steps.changed-files.outputs.all_changed_files }}"
+            if [ -z "$DIRS_TO_BUILD" ]; then
+              echo "No files changed in src/. Skipping build."
+            fi
+          fi
+          
+          for dir in $DIRS_TO_BUILD; do
             # Ensure it is a valid package directory (has manifest)
             if [ -f "$dir/manifest" ]; then
               echo "Building package in $dir..."
