@@ -166,9 +166,14 @@ def fetch_github_assets(pkg_dir, build_config):
 
 def fetch_http_template_assets(pkg_dir, build_config):
     source = build_config.get("source", {})
-    url_template = source.get("url_template")
-    if not url_template:
-        print("Error: 'url_template' missing for http_template provider.")
+    url_templates = []
+    if "url_template" in source:
+        url_templates.append(source["url_template"])
+    if "url_templates" in source:
+        url_templates.extend(source["url_templates"])
+
+    if not url_templates:
+        print("Error: 'url_template' or 'url_templates' missing for http_template provider.")
         return False
 
     version = source.get("version", "latest")
@@ -183,15 +188,16 @@ def fetch_http_template_assets(pkg_dir, build_config):
         platform = m.get("platform", "all")
         if not arch: continue
 
-        url = url_template.replace("{arch}", arch).replace("{version}", version).replace("{platform}", platform)
-        filename = url.split("/")[-1]
-        dest_dir = os.path.join(pkg_dir, "binary", platform, arch)
-        dest_path = os.path.join(dest_dir, filename)
+        for url_template in url_templates:
+            url = url_template.replace("{arch}", arch).replace("{version}", version).replace("{platform}", platform)
+            filename = url.split("/")[-1]
+            dest_dir = os.path.join(pkg_dir, "binary", platform, arch)
+            dest_path = os.path.join(dest_dir, filename)
 
-        if download_file(url, dest_path):
-            found_any = True
-        else:
-            print(f"Could not download asset for {arch} from {url}")
+            if download_file(url, dest_path):
+                found_any = True
+            else:
+                print(f"Could not download asset for {arch} from {url}")
 
     return found_any
 

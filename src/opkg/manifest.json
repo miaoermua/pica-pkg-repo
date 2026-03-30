@@ -129,6 +129,15 @@
       "staging": "src/opkg/tailscale",
       "ci": "ci/opkg/tailscale/build.json",
       "registry": "r/opkg/tailscale/index.json"
+    },
+    {
+      "id": "ddns-go",
+      "pkgname": "ddns-go",
+      "version": "6.9.1-1",
+      "manifest": "src/opkg/ddns-go/manifest",
+      "staging": "src/opkg/ddns-go",
+      "ci": "ci/opkg/ddns-go/build.json",
+      "registry": "r/opkg/ddns-go/index.json"
     }
   ]
 }

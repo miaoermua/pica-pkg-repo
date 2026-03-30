@@ -23,6 +23,3 @@ luci = lua1
 pkgmgr = opkg
 app = rtp2httpd
 app = luci-app-rtp2httpd
-cmd_install = cmd/install
-cmd_update = cmd/update
-cmd_remove = cmd/remove

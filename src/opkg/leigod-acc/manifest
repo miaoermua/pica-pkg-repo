@@ -36,6 +36,3 @@ kmod = iptables-mod-tproxy
 kmod = kmod-ipt-tproxy
 kmod = kmod-ipt-ipset
 kmod = kmod-tun
-cmd_install = cmd/install
-cmd_update = cmd/update
-cmd_remove = cmd/remove

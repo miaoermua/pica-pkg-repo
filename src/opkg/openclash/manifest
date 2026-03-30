@@ -19,6 +19,3 @@ type = luci
 luci = lua1
 pkgmgr = opkg
 app = luci-app-openclash
-cmd_install = cmd/install
-cmd_update = cmd/update
-cmd_remove = cmd/remove

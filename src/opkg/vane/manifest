@@ -19,6 +19,3 @@ protocol = cli
 type = cli
 pkgmgr = opkg
 app = vane
-cmd_install = cmd/install
-cmd_update = cmd/update
-cmd_remove = cmd/remove
