@@ -3,7 +3,7 @@
   "schema": "pica-repo-index-v1",
   "repo_name": "Pica 官方社区软件源",
   "repo_desc": "Pica Official Community Software Source",
-  "generated_at": "2026-03-30T11:44:05.036188Z",
+  "generated_at": "2026-03-30T12:22:18.214516Z",
   "packages": [
     {
       "pkgname": "adguardhome",
@@ -239,6 +239,33 @@
       "size": "10091510",
       "filename": "adguardhome-bin-0.107.57-1-mipsel-mipsel_24kc.pkg.tar.gz",
       "sha256": "8fdc9d5dcaddb647aaa695077c4b1dad00d9acd57372a1b63528c8ae9198a2a4"
+    },
+    {
+      "pkgname": "ua-mask",
+      "appname": "ua-mask",
+      "os": "openwrt",
+      "pica": "0.2.0",
+      "pkgdesc": "A lightweight tool to mask User-Agent and other headers in OpenWrt.",
+      "url": "https://github.com/Zesuy/UA-Mask",
+      "branch": "main",
+      "protocol": "cli",
+      "license": "GPL-3.0-only",
+      "visibility": "open",
+      "packager": "pica-pack",
+      "type": "cli",
+      "pkgmgr": "opkg",
+      "app": "ua-mask",
+      "cmd_install": "cmd/install",
+      "cmd_update": "cmd/update",
+      "cmd_remove": "cmd/remove",
+      "builddate": "1774873334",
+      "pkgver": "0.4.3",
+      "pkgrel": "1",
+      "platform": "mipsel",
+      "arch": "mipsel_24kc",
+      "size": "1392888",
+      "filename": "ua-mask-0.4.3-1-mipsel-mipsel_24kc.pkg.tar.gz",
+      "sha256": "13e0857b8b31e4a296cbf6283a4b265ed0ecbefd0e791ecebbc80642e214eb7d"
     }
   ]
 }
