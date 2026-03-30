@@ -26,33 +26,21 @@ jobs:
           dir_names: true
           dir_names_max_depth: 3 # e.g. src/mgr/hello
           
-      - name: Setup pica-pack (Placeholder)
-        # Note: Replace this with the actual installation of pica-pack
-        # Since pica-pack isn't standard, you'd typically download it here:
+      - name: Checkout pica source
+        uses: actions/checkout@v4
+        with:
+          repository: miaoermua/pica
+          path: pica-source
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build and Install pica-pack
         run: |
-          echo "Simulating pica-pack installation..."
-          # wget https://github.com/miaoermua/pica-pack/releases/latest/download/pica-pack-linux-amd64
-          # chmod +x pica-pack-linux-amd64
-          # sudo mv pica-pack-linux-amd64 /usr/local/bin/pica-pack
-          
-          # Create a dummy script for simulation if real tool is absent
-          cat << 'EOF' > /tmp/pica-pack
-          #!/bin/bash
-          if [ "$1" == "build" ]; then
-            PKG_DIR=$2
-            PKG_NAME=$(basename $PKG_DIR)
-            ARCH="all"
-            OS="linux"
-            MANIFEST="$PKG_DIR/manifest"
-            VERSION=$(grep 'pkgver=' $MANIFEST | cut -d= -f2 | tr -d '"')
-            OUT_NAME="${PKG_NAME}-${VERSION}-${OS}-${ARCH}.pkg.tar.gz"
-            echo "Building $PKG_DIR into $OUT_NAME..."
-            tar -czvf $OUT_NAME -C $PKG_DIR .
-            echo "Built $OUT_NAME"
-          fi
-          EOF
-          chmod +x /tmp/pica-pack
-          sudo mv /tmp/pica-pack /usr/local/bin/pica-pack
+          echo "Compiling pica-pack from miaoermua/pica..."
+          cd pica-source
+          cargo build --release --bin pica-pack
+          sudo mv target/release/pica-pack /usr/local/bin/pica-pack
 
       - name: Build Changed Packages
         run: |

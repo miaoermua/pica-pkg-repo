@@ -4,6 +4,7 @@ import os
 import tarfile
 import hashlib
 import sys
+import datetime
 
 REPO_JSON_PATH = 'r/repo.json'
 
@@ -40,19 +41,34 @@ def main():
     pkg_files = sys.argv[1:]
     
     # Load existing repo.json
-    repo_data = []
+    repo_meta = {
+        "pica_protocol": 1,
+        "schema": "pica-repo-index-v1",
+        "repo_name": "Pica 官方社区软件源",
+        "repo_desc": "Pica Official Community Software Source",
+        "generated_at": ""
+    }
+    repo_packages = []
+    
     if os.path.exists(REPO_JSON_PATH):
         with open(REPO_JSON_PATH, 'r', encoding='utf-8') as f:
             try:
-                repo_data = json.load(f)
+                data = json.load(f)
+                if isinstance(data, dict):
+                    # Preserve existing meta and extract packages
+                    repo_meta.update({k: v for k, v in data.items() if k != 'packages'})
+                    repo_packages = data.get('packages', [])
+                elif isinstance(data, list):
+                    # Migration from old flat array
+                    repo_packages = data
             except json.JSONDecodeError:
-                repo_data = []
+                pass
                 
-    if not isinstance(repo_data, list):
-        print(f"Warning: {REPO_JSON_PATH} is not a JSON array, resetting.")
-        repo_data = []
+    if not isinstance(repo_packages, list):
+        print(f"Warning: packages in {REPO_JSON_PATH} is not a JSON array, resetting.")
+        repo_packages = []
         
-    repo_map = {item.get('pkgname'): item for item in repo_data if isinstance(item, dict) and 'pkgname' in item}
+    repo_map = {item.get('pkgname'): item for item in repo_packages if isinstance(item, dict) and 'pkgname' in item}
 
     os.makedirs('r', exist_ok=True)
 
@@ -98,13 +114,14 @@ def main():
         repo_map[pkgname] = manifest_data
         print(f"Processed {filename} -> {pkgname} version {manifest_data.get('pkgver')}")
 
-    # Write back the flat list
-    updated_repo = list(repo_map.values())
+    # Write back the wrapped structured JSON
+    repo_meta["generated_at"] = datetime.datetime.utcnow().isoformat() + "Z"
+    repo_meta["packages"] = list(repo_map.values())
     
     with open(REPO_JSON_PATH, 'w', encoding='utf-8') as f:
-        json.dump(updated_repo, f, indent=2, ensure_ascii=False)
+        json.dump(repo_meta, f, indent=2, ensure_ascii=False)
         
-    print(f"Successfully updated {REPO_JSON_PATH} with {len(updated_repo)} packages.")
+    print(f"Successfully updated {REPO_JSON_PATH} with {len(repo_meta['packages'])} packages.")
 
 if __name__ == '__main__':
     main()
