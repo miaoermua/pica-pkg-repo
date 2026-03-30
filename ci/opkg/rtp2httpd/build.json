@@ -4,35 +4,24 @@
   "mgr": "opkg",
   "id": "rtp2httpd",
   "enabled": true,
-  "manifest": "manifests/opkg/rtp2httpd/manifest",
+  "manifest": "src/opkg/rtp2httpd/manifest",
   "source": {
     "provider": "github",
     "repo": "stackia/rtp2httpd",
     "release": {
       "tag": {
         "mode": "regex",
-        "regex": "^v?[0-9]+(?:\\.[0-9]+)*(?:[-_].+)?$"
+        "regex": "^v?[0-9.]+$"
       },
       "allow_prerelease": false,
       "assets": [
         {
-          "name": "luci-app",
-          "role": "luci",
-          "regex": "^luci-app-rtp2httpd_.*_all\\.ipk$",
+          "name": "rtp2httpd-core",
+          "role": "app",
+          "regex": "^rtp2httpd_.*_(x86_64|mipsel_24kc)\\.ipk$",
           "required": true,
-          "target": {
-            "platform": "all",
-            "arch": "all"
-          }
-        },
-        {
-          "name": "luci-i18n-zh-cn",
-          "role": "i18n",
-          "regex": "^luci-i18n-rtp2httpd-zh-cn_.*_all\\.ipk$",
-          "required": false,
-          "target": {
-            "platform": "all",
-            "arch": "all"
+          "capture_to": {
+            "arch": 1
           }
         }
       ]
@@ -51,8 +40,12 @@
   "build": {
     "matrix": [
       {
-        "platform": "all",
-        "arch": "all"
+        "platform": "amd64",
+        "arch": "x86_64"
+      },
+      {
+        "platform": "mipsel",
+        "arch": "mipsel_24kc"
       }
     ],
     "include_dirs": [
@@ -67,9 +60,8 @@
     }
   },
   "publish": {
-    "manifest_index": "manifests/opkg/manifest.json",
+    "manifest_index": "src/opkg/manifest.json",
     "registry_db": "r/opkg/rtp2httpd/db.json",
-    "keep_release_history": 1,
-    "artifact_url_template": "https://example.invalid/pica/releases/{id}/{filename}"
+    "keep_release_history": 1
   }
 }

@@ -4,19 +4,19 @@
   "mgr": "opkg",
   "id": "leigod-acc",
   "enabled": true,
-  "manifest": "manifests/opkg/leigod-acc/manifest",
+  "manifest": "src/opkg/leigod-acc/manifest",
   "source": {
     "provider": "github",
-    "repo": "miaoermua/luci-app-leigod-acc",
+    "repo": "miaoermua/openwrt-leigodacc-manager",
     "release": {
       "tag": {
         "mode": "regex",
-        "regex": "^v?[0-9]+(?:\\.[0-9]+)*(?:[-_].+)?$"
+        "regex": "^v?[0-9.]+$"
       },
       "allow_prerelease": false,
       "assets": [
         {
-          "name": "leigod-core",
+          "name": "leigod-acc-core",
           "role": "app",
           "regex": "^leigod-acc_.*_(x86_64|aarch64_generic|aarch64_cortex-a53|mipsel_24kc)\\.ipk$",
           "required": true,
@@ -29,16 +29,6 @@
           "role": "luci",
           "regex": "^luci-app-leigod-acc_.*_all\\.ipk$",
           "required": true,
-          "target": {
-            "platform": "all",
-            "arch": "all"
-          }
-        },
-        {
-          "name": "luci-i18n-zh-cn",
-          "role": "i18n",
-          "regex": "^luci-i18n-leigod-acc-zh-cn_.*_all\\.ipk$",
-          "required": false,
           "target": {
             "platform": "all",
             "arch": "all"
@@ -88,9 +78,8 @@
     }
   },
   "publish": {
-    "manifest_index": "manifests/opkg/manifest.json",
+    "manifest_index": "src/opkg/manifest.json",
     "registry_db": "r/opkg/leigod-acc/db.json",
-    "keep_release_history": 1,
-    "artifact_url_template": "https://example.invalid/pica/releases/{id}/{filename}"
+    "keep_release_history": 1
   }
 }

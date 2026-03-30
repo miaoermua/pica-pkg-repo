@@ -4,21 +4,21 @@
   "mgr": "opkg",
   "id": "adguardhome",
   "enabled": true,
-  "manifest": "manifests/opkg/adguardhome/manifest",
+  "manifest": "src/opkg/adguardhome/manifest",
   "source": {
     "provider": "github",
     "repo": "rufengsuixing/luci-app-adguardhome",
     "release": {
       "tag": {
-        "mode": "latest",
-        "regex": "^.+$"
+        "mode": "regex",
+        "regex": "^v?[0-9]+(?:[.-][0-9]+)*$"
       },
       "allow_prerelease": false,
       "assets": [
         {
-          "name": "luci-app-adguardhome",
-          "role": "app",
-          "regex": "^luci-app-adguardhome_([0-9][^_]*)_all\\.ipk$",
+          "name": "luci-app",
+          "role": "luci",
+          "regex": "^luci-app-adguardhome_.*_all\\.ipk$",
           "required": true,
           "target": {
             "platform": "all",
@@ -30,8 +30,7 @@
   },
   "versioning": {
     "pkgver": {
-      "from": "tag",
-      "regex": "^(.+)$",
+      "from": "manifest",
       "fallback": "1.8.9"
     },
     "pkgrel": {
@@ -58,9 +57,8 @@
     }
   },
   "publish": {
-    "manifest_index": "manifests/opkg/manifest.json",
+    "manifest_index": "src/opkg/manifest.json",
     "registry_db": "r/opkg/adguardhome/db.json",
-    "keep_release_history": 1,
-    "artifact_url_template": "https://example.invalid/pica/releases/{id}/{filename}"
+    "keep_release_history": 1
   }
 }

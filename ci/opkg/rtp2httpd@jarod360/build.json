@@ -2,12 +2,12 @@
   "pica_protocol": 1,
   "schema": "pica-ci-job-v1",
   "mgr": "opkg",
-  "id": "vane",
+  "id": "rtp2httpd@jarod360",
   "enabled": true,
-  "manifest": "manifests/opkg/vane/manifest",
+  "manifest": "src/opkg/rtp2httpd@jarod360/manifest",
   "source": {
     "provider": "github",
-    "repo": "canmi21/vane",
+    "repo": "jarod360/rtp2httpd",
     "release": {
       "tag": {
         "mode": "regex",
@@ -16,10 +16,23 @@
       "allow_prerelease": false,
       "assets": [
         {
-          "name": "vane-bin",
+          "name": "rtp2httpd-core",
           "role": "app",
-          "regex": "^vane-v.*-openwrt-(x86_64|aarch64)\\.ipk$",
-          "required": true
+          "regex": "^rtp2httpd_.*_(x86_64|aarch64_generic|aarch64_cortex-a53)\\.ipk$",
+          "required": true,
+          "capture_to": {
+            "arch": 1
+          }
+        },
+        {
+          "name": "luci-app",
+          "role": "luci",
+          "regex": "^luci-app-rtp2httpd_.*_all\\.ipk$",
+          "required": true,
+          "target": {
+            "platform": "all",
+            "arch": "all"
+          }
         }
       ]
     }
@@ -27,11 +40,11 @@
   "versioning": {
     "pkgver": {
       "from": "manifest",
-      "fallback": "0.9.0"
+      "fallback": "20251127"
     },
     "pkgrel": {
       "from": "manifest",
-      "fallback": 1
+      "fallback": 2
     }
   },
   "build": {
@@ -61,8 +74,8 @@
     }
   },
   "publish": {
-    "manifest_index": "manifests/opkg/manifest.json",
-    "registry_db": "r/opkg/vane/db.json",
+    "manifest_index": "src/opkg/manifest.json",
+    "registry_db": "r/opkg/rtp2httpd@jarod360/db.json",
     "keep_release_history": 1,
     "artifact_url_template": "https://example.invalid/pica/releases/{id}/{filename}"
   }

@@ -8,8 +8,8 @@
       "id": "adguardhome",
       "pkgname": "adguardhome",
       "version": "1.8.9-1",
-      "manifest": "manifests/opkg/adguardhome/manifest",
-      "staging": "manifests/opkg/adguardhome",
+      "manifest": "src/opkg/adguardhome/manifest",
+      "staging": "src/opkg/adguardhome",
       "ci": "ci/opkg/adguardhome/build.json",
       "registry": "r/opkg/adguardhome/index.json"
     },
@@ -17,8 +17,8 @@
       "id": "leigod-acc",
       "pkgname": "leigod-acc",
       "version": "1.3.0.30-1",
-      "manifest": "manifests/opkg/leigod-acc/manifest",
-      "staging": "manifests/opkg/leigod-acc",
+      "manifest": "src/opkg/leigod-acc/manifest",
+      "staging": "src/opkg/leigod-acc",
       "ci": "ci/opkg/leigod-acc/build.json",
       "registry": "r/opkg/leigod-acc/index.json"
     },
@@ -26,8 +26,8 @@
       "id": "rtp2httpd",
       "pkgname": "rtp2httpd",
       "version": "3.9.1-1",
-      "manifest": "manifests/opkg/rtp2httpd/manifest",
-      "staging": "manifests/opkg/rtp2httpd",
+      "manifest": "src/opkg/rtp2httpd/manifest",
+      "staging": "src/opkg/rtp2httpd",
       "ci": "ci/opkg/rtp2httpd/build.json",
       "registry": "r/opkg/rtp2httpd/index.json"
     },
@@ -44,8 +44,8 @@
       "id": "vane",
       "pkgname": "vane",
       "version": "0.9.0-1",
-      "manifest": "manifests/opkg/vane/manifest",
-      "staging": "manifests/opkg/vane",
+      "manifest": "src/opkg/vane/manifest",
+      "staging": "src/opkg/vane",
       "ci": "ci/opkg/vane/build.json",
       "registry": "r/opkg/vane/index.json"
     }

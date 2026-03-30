@@ -49,6 +49,8 @@ jobs:
           sudo mv target/release/pica-pack /usr/local/bin/pica-pack
 
       - name: Build Changed Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p build_output
           
@@ -66,6 +68,16 @@ jobs:
           for dir in $DIRS_TO_BUILD; do
             # Ensure it is a valid package directory (has manifest)
             if [ -f "$dir/manifest" ]; then
+              APP_ID=$(basename "$dir")
+              BUILD_JSON="ci/opkg/$APP_ID/build.json"
+              
+              # 1. Fetch external assets if build.json exists in ci/
+              if [ -f "$BUILD_JSON" ]; then
+                echo "Fetching assets for $APP_ID using $BUILD_JSON..."
+                python3 .github/scripts/fetch_assets.py "$dir" "$BUILD_JSON"
+              fi
+              
+              # 2. Build the package
               echo "Building package in $dir..."
               pica-pack build "$dir" --outdir build_output
             fi
@@ -75,15 +87,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
 
-      - name: Aggregate r/repo.json
+      - name: Generate Repository Index
         run: |
           # Ensure r/ exists
           mkdir -p r
           # Run aggregation script over all built packages
           # If no packages matched, this will just exit gracefully
           if ls build_output/*.pkg.tar.gz 1> /dev/null 2>&1; then
-            export PYTHONPATH=$PYTHONPATH:$(pwd)
-            python3 ci/scripts/gen_repo_index.py build_output/*.pkg.tar.gz
+            python3 .github/scripts/gen_repo_index.py build_output/*.pkg.tar.gz
           else
             echo "No packages were built."
           fi
